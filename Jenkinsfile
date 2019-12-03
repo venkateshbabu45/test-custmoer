@@ -20,20 +20,18 @@ pipeline {
     }
     stage('Docker Build') {
       steps {
-        //sh '/usr/bin/docker build -t bank-customer-service .'
         sh '/usr/bin/docker build -t myrepo .'
       }
     }
-    stage('Push image') {
+   
+    stage('push image to ECR'){
       steps {
-       
-      withDockerRegistry(credentialsId: 'ecr:us-east-1:aws-credentials', url: 'http://508607970941.dkr.ecr.us-east-1.amazonaws.com/myrepo:latest') {
+       withDockerRegistry(credentialsId: 'ecr:us-east-1:aws-credentials', url: 'http://508607970941.dkr.ecr.us-east-1.amazonaws.com/myrepo:latest') {
           sh 'docker tag address-service:latest 508607970941.dkr.ecr.us-east-1.amazonaws.com/myrepo:latest'
           sh 'docker push 508607970941.dkr.ecr.us-east-1.amazonaws.com/myrepo:latest'
-         }
-        }
+        } 
       }
     }
-   }
-  
-
+ 
+  }
+}
